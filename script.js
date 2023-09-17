@@ -15,7 +15,7 @@ navigator.geolocation.getCurrentPosition(
   function (position) {
     const { latitude, longitude } = position.coords;
     const coords = [latitude, longitude];
-    var map = L.map('map').setView(coords, 13);
+    let map = L.map('map').setView(coords, 13);
 
     L.tileLayer(
       'http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',
@@ -29,11 +29,15 @@ navigator.geolocation.getCurrentPosition(
       }
     ).addTo(map);
 
-    L.marker(coords)
-      .addTo(map)
-      .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-      .openPopup();
+    L.marker(coords).addTo(map).bindPopup('Your current location').openPopup();
     console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+
+    //adding click event on map
+    map.on('click', function (mapEvent) {
+      const { lat, lng } = mapEvent.latlng;
+      console.log(mapEvent);
+      L.marker([lat, lng]).addTo(map).bindPopup('workout').openPopup();
+    });
   },
   function () {
     alert('Could not get position');

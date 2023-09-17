@@ -42,7 +42,7 @@ a:visited {
 
 /* SIDEBAR */
 .sidebar {
-  flex-basis: 50rem;
+  flex-basis: 30rem;
   background-color: var(--color-dark--1);
   padding: 3rem 5rem 4rem 5rem;
   display: flex;
@@ -218,3 +218,10 @@ a:visited {
 .cycling-popup .leaflet-popup-content-wrapper {
   border-left: 5px solid var(--color-brand--1);
 }
+
+/* @media (max-width: 37em) {
+  body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+} */
