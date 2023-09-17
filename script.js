@@ -36,7 +36,17 @@ navigator.geolocation.getCurrentPosition(
     map.on('click', function (mapEvent) {
       const { lat, lng } = mapEvent.latlng;
       console.log(mapEvent);
-      L.marker([lat, lng]).addTo(map).bindPopup('workout').openPopup();
+      L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup(
+          L.popup({
+            autoClose: false,
+            closeOnClick: false,
+            className: 'running-popup',
+          })
+        )
+        .setPopupContent('workout')
+        .openPopup();
     });
   },
   function () {
