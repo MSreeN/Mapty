@@ -71,3 +71,13 @@ form.addEventListener('submit', function (e) {
     .setPopupContent('workout')
     .openPopup();
 });
+
+inputType.addEventListener('change', function (e) {
+  console.log(e.target.value);
+  inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+  inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+});
+
+inputDistance.addEventListener('onChange', function (e) {
+  console.log(e.target.value);
+});
