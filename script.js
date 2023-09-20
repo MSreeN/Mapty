@@ -13,8 +13,16 @@ const inputElevation = document.querySelector('.form__input--elevation');
 
 let map, mapEvent;
 
-navigator.geolocation.getCurrentPosition(
-  function (position) {
+class App {
+  constructor() {}
+
+  _getPosition() {
+    navigator.geolocation.getCurrentPosition(this._loadMap, function () {
+      alert('Could not get position');
+    });
+  }
+
+  _loadMap(position) {
     const { latitude, longitude } = position.coords;
     const coords = [latitude, longitude];
     map = L.map('map').setView(coords, 13);
@@ -38,16 +46,18 @@ navigator.geolocation.getCurrentPosition(
     //adding click event on map
     map.on('click', function (mapE) {
       mapEvent = mapE;
-
       console.log(mapEvent);
       form.classList.remove('hidden');
       inputDistance.focus();
     });
-  },
-  function () {
-    alert('Could not get position');
   }
-);
+
+  _toggleElevationField() {}
+
+  _newWorkout() {}
+}
+
+//creating obj from App class
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
@@ -76,8 +86,4 @@ inputType.addEventListener('change', function (e) {
   console.log(e.target.value);
   inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
   inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
-});
-
-inputDistance.addEventListener('onChange', function (e) {
-  console.log(e.target.value);
 });
