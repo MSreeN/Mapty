@@ -66,7 +66,7 @@ class App {
   }
 
   _toggleElevationField(e) {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
     inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
   }
