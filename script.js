@@ -116,17 +116,18 @@ class App {
 
     const validInputs = (...inputs) => inputs.every(ip => Number.isFinite(ip));
 
-    const allPositive = (...inputs) => inputs.every(ip => ip > 0);
+    const allPositive = (...inputs) => inputs.every(ip => ip >= 0);
 
     //Get data from form
     const type = inputType.value;
-    const distance = inputDistance.value;
-    const duration = inputDuration.value;
+    const distance = +inputDistance.value;
+    const duration = +inputDuration.value;
 
     //Check if data is valid
 
     //If activity running, create running object
     if (type == 'running') {
+      console.log('running');
       const cadence = +inputCadence.value;
       if (
         !validInputs(distance, duration, cadence) ||
@@ -136,6 +137,7 @@ class App {
     }
     //If activity cycling, create cycling object
     if (type == 'cycling') {
+      console.log('cycling');
       const elevation = +inputElevation.value;
       if (
         !validInputs(distance, duration, elevation) ||
