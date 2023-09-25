@@ -63,9 +63,9 @@ class Cycling extends Workout {
   }
 }
 
-const run1 = new Running([1, 2], 5, 10, 5);
-const cyc1 = new Cycling([1, 2], 5, 10, 5);
-console.log(run1, cyc1);
+// const run1 = new Running([1, 2], 5, 10, 5);
+// const cyc1 = new Cycling([1, 2], 5, 10, 5);
+// console.log(run1, cyc1);
 
 ///////////////Application architecture;
 class App {
@@ -168,7 +168,7 @@ class App {
         !allPositive(distance, duration)
       )
         return alert('Inputs has to be number');
-      workout = new Running(this.#mapEvent.latlng, distance, duration);
+      workout = new Cycling(this.#mapEvent.latlng, distance, duration);
     }
     // Add new object to workout array
     this.#workouts.unshift(workout);
@@ -250,6 +250,7 @@ class App {
   </li> -->`;
 
     form.insertAdjacentHTML('afterend', html);
+    console.log(workout);
     console.log(workout.type);
   }
 }
