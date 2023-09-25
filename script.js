@@ -121,6 +121,12 @@ class App {
     inputDistance.focus();
   }
 
+  _hideForm() {
+    form.style.display = 'none';
+    form.classList.add('hidden');
+    form.style.display = 'grid';
+  }
+
   _toggleElevationField(e) {
     // console.log(e.target.value);
     inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
@@ -173,7 +179,10 @@ class App {
 
     //Render workout on list
     this._renderWorkout(workout);
+
     //Hide form and clear input fields
+    this._hideForm();
+
     //clearing input fields
     inputCadence.value = '';
     inputDistance.value = '';
@@ -241,6 +250,7 @@ class App {
   </li> -->`;
 
     form.insertAdjacentHTML('afterend', html);
+    console.log(workout.type);
   }
 }
 
