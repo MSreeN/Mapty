@@ -119,6 +119,8 @@ class App {
 
     //adding click event on map
     this.#map.on('click', this._showForm.bind(this));
+
+    this.#workouts.forEach(workout => this._renderWorkoutMarker(workout));
   }
 
   _showForm(mapE) {
@@ -178,7 +180,7 @@ class App {
       workout = new Cycling(this.#mapEvent.latlng, distance, duration);
     }
     // Add new object to workout array
-    this.#workouts.unshift(workout);
+    this.#workouts.push(workout);
     // console.log(workout);
 
     //Render workout on map as marker
