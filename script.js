@@ -74,7 +74,13 @@ class App {
   #workouts = [];
 
   constructor() {
+    //get users position
     this._getPosition();
+
+    //get data form local storage
+    this._getLocalStorage();
+
+    //attaching event handlers
     form.addEventListener('submit', this._newWorkout.bind(this));
 
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
@@ -189,6 +195,9 @@ class App {
     inputDistance.value = '';
     inputDuration.value = '';
     inputElevation.value = '';
+
+    //set local storage storage to all workouts
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -270,6 +279,15 @@ class App {
         duration: 1,
       },
     });
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    this.#workouts = JSON.parse(localStorage.getItem('workouts'));
+    this.#workouts.forEach(workout => this._renderWorkout(workout));
   }
 }
 
