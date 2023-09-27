@@ -76,6 +76,8 @@ a:visited {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 0.75rem 1.5rem;
+
+  position: relative;
 }
 .workout--running {
   border-left: 5px solid var(--color-brand--2);
@@ -225,3 +227,13 @@ a:visited {
     grid-template-columns: 1fr 1fr;
   }
 } */
+
+.edit-icon {
+  stroke: white;
+  height: 1.8rem;
+  width: 1.8rem;
+
+  position: absolute;
+  right: 0.8rem;
+  top: 0.4rem;
+}

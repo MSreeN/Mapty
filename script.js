@@ -12,6 +12,8 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
+let editIcon;
+
 let workout;
 
 let map, mapEvent;
@@ -124,7 +126,6 @@ class App {
   }
 
   _showForm(mapE) {
-    console.log(this);
     this.#mapEvent = mapE;
     form.classList.remove('hidden');
     inputDistance.focus();
@@ -177,7 +178,8 @@ class App {
         !allPositive(distance, duration)
       )
         return alert('Inputs has to be number');
-      workout = new Cycling(this.#mapEvent.latlng, distance, duration);
+      // prettier-ignore
+      workout = new Cycling(this.#mapEvent.latlng, distance, duration, elevation);
     }
     // Add new object to workout array
     this.#workouts.push(workout);
@@ -221,6 +223,7 @@ class App {
     let html = `<li class="workout workout--${workout.type}" data-id="${
       workout.id
     }">
+    <ion-icon class="edit-icon" name="create-outline"></ion-icon>
        <h2 class="workout__title"$>${workout.description}</h2>
        <div class="workout__details">
          <span class="workout__icon">${
@@ -259,21 +262,25 @@ class App {
    <span class="workout__value">${workout.elevationGain}</span>
    <span class="workout__unit">m</span>
   </div>
-  </li> -->`;
+  </li>`;
 
     form.insertAdjacentHTML('afterend', html);
     // console.log(workout);
     // console.log(workout.type);
+    editIcon = document.querySelectorAll('.edit-icon');
+    editIcon.forEach(icon =>
+      icon.addEventListener('click', this._editWorkout.bind(this))
+    );
   }
 
   _moveToPopup(e) {
     const ele = e.target.closest('.workout');
-    console.log(this);
+    // console.log(this);
     const workoutId = ele?.dataset.id;
     const clickedWorkout = this.#workouts.find(
       workout => workout.id === workoutId
     );
-    console.log(clickedWorkout);
+    // console.log(clickedWorkout);
     if (!clickedWorkout) return;
     this.#map.setView(clickedWorkout.coords, 13, {
       animate: true,
@@ -288,8 +295,38 @@ class App {
   }
 
   _getLocalStorage() {
+    if (!localStorage.getItem('workouts')) return;
     this.#workouts = JSON.parse(localStorage.getItem('workouts'));
+    // this.#workouts.forEach(workout => {
+    //   workout.__proto__ = Object.create(
+    //     workout.type == 'running' ? Running.prototype : Cycling.prototype
+    //   );
+    // });
     this.#workouts.forEach(workout => this._renderWorkout(workout));
+    console.log(this.#workouts);
+
+    // console.log(editIcon);
+    // console.log(editIcon);
+  }
+
+  _editWorkout(e) {
+    // console.log(e);
+    const selectedWorkoutId = e.target.closest('.workout').dataset.id;
+    const selectedWorkout = this.#workouts.find(
+      workout => workout.id == selectedWorkoutId
+    );
+    console.log(selectedWorkout);
+    // this._showForm();
+    // this._setFormFieldValues(selectedWorkout);
+  }
+
+  _setFormFieldValues(workout) {
+    inputType.value = workout.type;
+    inputDistance.value = workout.distance;
+    inputDuration.value = workout.duration;
+    console.log(workout.cadence);
+
+    // if(workout.type === "running") inputElevation.value = workout
   }
 }
 
