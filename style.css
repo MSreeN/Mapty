@@ -130,6 +130,22 @@ a:visited {
   transition: all 0.5s, transform 1ms;
 }
 
+.being-edited.form {
+  height: 11rem;
+}
+
+.btn_cancel {
+  grid-column: 2 / span 1;
+}
+
+.cancel:hover {
+  cursor: pointer;
+}
+
+.cancel_hidden {
+  display: none;
+}
+
 .form.hidden {
   transform: translateY(-30rem);
   height: 0;

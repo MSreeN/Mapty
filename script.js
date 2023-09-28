@@ -326,6 +326,8 @@ class App {
     // this._toggleElevationField(this);
     // console.log('in editWorkout method');
     // console.log(this.#workouts);
+    form.classList.add('being-edited');
+    document.querySelector('.cancel').classList.remove('cancel_hidden');
   }
   _setFormFieldValues(workout) {
     inputType.value = workout.type;
