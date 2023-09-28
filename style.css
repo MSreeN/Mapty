@@ -134,12 +134,23 @@ a:visited {
   height: 11rem;
 }
 
+.cancel {
+  width: max-content;
+  justify-self: end;
+}
+
+.save {
+  width: max-content;
+  justify-self: end;
+}
+
 .btn_cancel {
   grid-column: 2 / span 1;
 }
 
 .cancel:hover {
   cursor: pointer;
+  color: rgb(242, 236, 236);
 }
 
 .cancel_hidden {

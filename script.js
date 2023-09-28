@@ -12,6 +12,8 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
+const cancel = document.querySelector('.cancel');
+const saveBtn = document.querySelector('.save');
 let editIcon;
 
 let workout;
@@ -327,7 +329,10 @@ class App {
     // console.log('in editWorkout method');
     // console.log(this.#workouts);
     form.classList.add('being-edited');
-    document.querySelector('.cancel').classList.remove('cancel_hidden');
+    cancel.classList.remove('cancel_hidden');
+    saveBtn.classList.remove('cancel_hidden');
+    console.log(cancel);
+    cancel.addEventListener('click', this._cancelEdit.bind(this));
   }
   _setFormFieldValues(workout) {
     inputType.value = workout.type;
@@ -344,6 +349,16 @@ class App {
         .closest('.form__row')
         .classList.remove('form__row--hidden');
       inputElevation.value = workout.elevationGain;
+    }
+  }
+
+  _cancelEdit(e) {
+    e.preventDefault();
+    if (e.target.closest('.cancel')) {
+      form.classList.remove('being-edited');
+      cancel.classList.add('cancel_hidden');
+      this._clearFormFields();
+      this._hideForm();
     }
   }
 }
