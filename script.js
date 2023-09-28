@@ -126,6 +126,7 @@ class App {
   }
 
   _showForm(mapE) {
+    this._clearFormFields();
     this.#mapEvent = mapE;
     form.classList.remove('hidden');
     inputDistance.focus();
@@ -195,13 +196,16 @@ class App {
     this._hideForm();
 
     //clearing input fields
+    this._clearFormFields();
+
+    //set local storage storage to all workouts
+    this._setLocalStorage();
+  }
+  _clearFormFields() {
     inputCadence.value = '';
     inputDistance.value = '';
     inputDuration.value = '';
     inputElevation.value = '';
-
-    //set local storage storage to all workouts
-    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -302,8 +306,9 @@ class App {
     //     workout.type == 'running' ? Running.prototype : Cycling.prototype
     //   );
     // });
-    this.#workouts.forEach(workout => this._renderWorkout(workout));
+    console.log('after workout');
     console.log(this.#workouts);
+    this.#workouts.forEach(workout => this._renderWorkout(workout));
 
     // console.log(editIcon);
     // console.log(editIcon);
@@ -316,17 +321,28 @@ class App {
       workout => workout.id == selectedWorkoutId
     );
     console.log(selectedWorkout);
-    // this._showForm();
-    // this._setFormFieldValues(selectedWorkout);
+    this._showForm();
+    this._setFormFieldValues(selectedWorkout);
+    // this._toggleElevationField(this);
+    // console.log('in editWorkout method');
+    // console.log(this.#workouts);
   }
-
   _setFormFieldValues(workout) {
     inputType.value = workout.type;
     inputDistance.value = workout.distance;
     inputDuration.value = workout.duration;
-    console.log(workout.cadence);
-
-    // if(workout.type === "running") inputElevation.value = workout
+    if (workout.type === 'running') {
+      inputElevation.closest('.form__row').classList.add('form__row--hidden');
+      inputCadence.closest('.form__row').classList.remove('form__row--hidden');
+      inputCadence.value = workout.cadence;
+    }
+    if (workout.type === 'cycling') {
+      inputCadence.closest('.form__row').classList.add('form__row--hidden');
+      inputElevation
+        .closest('.form__row')
+        .classList.remove('form__row--hidden');
+      inputElevation.value = workout.elevationGain;
+    }
   }
 }
 
