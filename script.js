@@ -329,6 +329,7 @@ class App {
 
   _editWorkout(e) {
     // console.log(e);
+    submitBtn.classList.add('cancel_hidden');
     const selectedWorkoutId = e.target.closest('.workout').dataset.id;
     const selectedWorkout = this.#workouts.find(
       workout => workout.id == selectedWorkoutId
@@ -346,7 +347,7 @@ class App {
 
     //creating new workout is not working if below line uncommented
 
-    // cancel.addEventListener('click', this._cancelEdit.bind(this));
+    cancel.addEventListener('click', this._cancelEdit.bind(this));
     saveBtn.addEventListener('click', this._saveEditedWorkout.bind(this));
   }
   _setFormFieldValues(workout) {
@@ -372,15 +373,16 @@ class App {
 
   _cancelEdit(e) {
     e.preventDefault();
-    // if (e.target.closest('.cancel')) {
-    //   console.log('clicked on cancel');
-    //   form.classList.remove('being-edited');
-    //   cancel.classList.add('cancel_hidden');
-    //   saveBtn.classList.add('cancel_hidden');
-    //   this._clearFormFields();
-    //   this._hideForm();
-    //   // form.addEventListener('submit', this._newWorkout.bind(this));
-    // }
+    if (e.target.closest('.cancel')) {
+      submitBtn.classList.remove('cancel_hidden');
+      console.log('clicked on cancel');
+      form.classList.remove('being-edited');
+      cancel.classList.add('cancel_hidden');
+      saveBtn.classList.add('cancel_hidden');
+      this._clearFormFields();
+      this._hideForm();
+      // form.addEventListener('submit', this._newWorkout.bind(this));
+    }
   }
 
   _saveEditedWorkout(e) {
