@@ -134,6 +134,7 @@ class App {
   _showForm(mapE) {
     cancel.classList.add('cancel_hidden');
     saveBtn.classList.add('cancel_hidden');
+    submitBtn.classList.remove('.cancel_hidden');
     this._clearFormFields();
     this.#mapEvent = mapE;
     form.classList.remove('hidden');
@@ -209,6 +210,7 @@ class App {
 
     //set local storage storage to all workouts
     this._setLocalStorage();
+    console.log(workout);
   }
   _clearFormFields() {
     inputCadence.value = '';
@@ -283,7 +285,7 @@ class App {
     // console.log(workout);
     // console.log(workout.type);
     editIcon = document.querySelectorAll('.edit-icon');
-    console.log('from render workout method');
+    // console.log('from render workout method');
     editIcon.forEach(icon => {
       icon.removeEventListener('click', this._editWorkout.bind(this));
       icon.addEventListener('click', this._editWorkout.bind(this));
@@ -314,13 +316,24 @@ class App {
   _getLocalStorage() {
     if (!localStorage.getItem('workouts')) return;
     this.#workouts = JSON.parse(localStorage.getItem('workouts'));
+    console.log(typeof this.#workouts);
+
+    console.log('before prototype', this.#workouts);
+    this.#workouts = this.#workouts.map(workout =>
+      workout.type == 'running'
+        ? Object.assign(new Running(), workout)
+        : Object.assign(new Cycling(), workout)
+    );
+    console.log('after prototype', this.#workouts);
+
+    // this.#workouts = this.#workouts.map()
     // this.#workouts.forEach(workout => {
     //   workout.__proto__ = Object.create(
     //     workout.type == 'running' ? Running.prototype : Cycling.prototype
     //   );
     // });
     console.log('after workout');
-    console.log(this.#workouts);
+    // console.log(this.#workouts);
     this.#workouts.forEach(workout => this._renderWorkout(workout));
 
     // console.log(editIcon);
@@ -387,6 +400,44 @@ class App {
 
   _saveEditedWorkout(e) {
     e.preventDefault();
+    const type = inputType.value;
+    const distance = inputDistance.value;
+    const duration = inputDuration.value;
+    let cadence, elevation;
+    if (type === 'running') {
+      cadence = inputCadence.value;
+    }
+    if (type === 'cycling') {
+      elevation = inputElevation.value;
+    }
+    console.log(type, distance, duration, cadence, elevation);
+    const workoutId = form.dataset.editId;
+    console.log(workoutId);
+    ///editing workout using for each
+    this.#workouts.forEach(workout => {
+      if (workout.id === workoutId) {
+        workout.distance = distance;
+        workout.duration = duration;
+        if (type === 'running') {
+          workout.cadence = cadence;
+        }
+        if (type === 'cycling') {
+          workout.elevationGain = elevation;
+        }
+      }
+    });
+
+    const workout = this.#workouts.filter(workout => workout.id === workoutId);
+    console.log(workout);
+    this._setLocalStorage();
+    const allWorkouts = document.querySelectorAll('.workout');
+    allWorkouts.forEach(workout => workout.remove());
+    submitBtn.classList.remove('cancel_hidden');
+    cancel.classList.add('cancel_hidden');
+    saveBtn.classList.add('cancel_hidden');
+    this._getLocalStorage();
+    this._clearFormFields();
+    this._hideForm();
   }
 }
 
