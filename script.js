@@ -14,6 +14,8 @@ const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 const cancel = document.querySelector('.cancel');
 const saveBtn = document.querySelector('.save');
+const optionsBtn = document.querySelector('.option_buttons');
+const submitBtn = document.querySelector('.submit_btn');
 let editIcon;
 
 let workout;
@@ -78,6 +80,7 @@ class App {
   #workouts = [];
 
   constructor() {
+    console.log(form);
     //get users position
     this._getPosition();
 
@@ -85,7 +88,8 @@ class App {
     this._getLocalStorage();
 
     //attaching event handlers
-    form.addEventListener('submit', this._newWorkout.bind(this));
+    // form.addEventListener('submit', this._newWorkout.bind(this));
+    submitBtn.addEventListener('click', this._newWorkout.bind(this));
 
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
@@ -128,6 +132,8 @@ class App {
   }
 
   _showForm(mapE) {
+    cancel.classList.add('cancel_hidden');
+    saveBtn.classList.add('cancel_hidden');
     this._clearFormFields();
     this.#mapEvent = mapE;
     form.classList.remove('hidden');
@@ -148,6 +154,7 @@ class App {
 
   _newWorkout(e) {
     e.preventDefault();
+    console.log('from newWorkout method');
 
     const validInputs = (...inputs) => inputs.every(ip => Number.isFinite(ip));
 
@@ -247,7 +254,9 @@ class App {
     if (workout.type === 'running')
       html += `<div class="workout__details">
        <span class="workout__icon">⚡️</span>
-       <span class="workout__value">${workout.pace.toFixed(1)}</span>
+      <span class="workout__value">${
+        workout.pace ? workout.pace.toFixed(1) : '-'
+      }</span>
        <span class="workout__unit">km/h</span>
      </div>
      <div class="workout__details">
@@ -270,13 +279,15 @@ class App {
   </div>
   </li>`;
 
-    form.insertAdjacentHTML('afterend', html);
+    optionsBtn.insertAdjacentHTML('afterend', html);
     // console.log(workout);
     // console.log(workout.type);
     editIcon = document.querySelectorAll('.edit-icon');
-    editIcon.forEach(icon =>
-      icon.addEventListener('click', this._editWorkout.bind(this))
-    );
+    console.log('from render workout method');
+    editIcon.forEach(icon => {
+      icon.removeEventListener('click', this._editWorkout.bind(this));
+      icon.addEventListener('click', this._editWorkout.bind(this));
+    });
   }
 
   _moveToPopup(e) {
@@ -326,40 +337,54 @@ class App {
     this._showForm();
     this._setFormFieldValues(selectedWorkout);
     // this._toggleElevationField(this);
-    // console.log('in editWorkout method');
-    // console.log(this.#workouts);
+    // // console.log('in editWorkout method');
+    // // console.log(this.#workouts);
     form.classList.add('being-edited');
     cancel.classList.remove('cancel_hidden');
     saveBtn.classList.remove('cancel_hidden');
-    console.log(cancel);
-    cancel.addEventListener('click', this._cancelEdit.bind(this));
+    // // console.log(cancel);
+
+    //creating new workout is not working if below line uncommented
+
+    // cancel.addEventListener('click', this._cancelEdit.bind(this));
+    saveBtn.addEventListener('click', this._saveEditedWorkout.bind(this));
   }
   _setFormFieldValues(workout) {
     inputType.value = workout.type;
     inputDistance.value = workout.distance;
     inputDuration.value = workout.duration;
     if (workout.type === 'running') {
+      console.log('from running loop');
       inputElevation.closest('.form__row').classList.add('form__row--hidden');
       inputCadence.closest('.form__row').classList.remove('form__row--hidden');
       inputCadence.value = workout.cadence;
     }
-    if (workout.type === 'cycling') {
+    // if (workout.type === 'cycling') {
+    else {
       inputCadence.closest('.form__row').classList.add('form__row--hidden');
       inputElevation
         .closest('.form__row')
         .classList.remove('form__row--hidden');
       inputElevation.value = workout.elevationGain;
     }
+    form.dataset.editId = workout.id;
   }
 
   _cancelEdit(e) {
     e.preventDefault();
-    if (e.target.closest('.cancel')) {
-      form.classList.remove('being-edited');
-      cancel.classList.add('cancel_hidden');
-      this._clearFormFields();
-      this._hideForm();
-    }
+    // if (e.target.closest('.cancel')) {
+    //   console.log('clicked on cancel');
+    //   form.classList.remove('being-edited');
+    //   cancel.classList.add('cancel_hidden');
+    //   saveBtn.classList.add('cancel_hidden');
+    //   this._clearFormFields();
+    //   this._hideForm();
+    //   // form.addEventListener('submit', this._newWorkout.bind(this));
+    // }
+  }
+
+  _saveEditedWorkout(e) {
+    e.preventDefault();
   }
 }
 
