@@ -457,15 +457,18 @@ class App {
     const workoutId = form.dataset.editId;
     console.log(workoutId);
     ///editing workout using for each
+
     this.#workouts.forEach(workout => {
       if (workout.id === workoutId) {
         workout.distance = distance;
         workout.duration = duration;
         if (type === 'running') {
           workout.cadence = cadence;
+          workout.calcPace();
         }
         if (type === 'cycling') {
           workout.elevationGain = elevation;
+          workout.calcSpeed();
         }
       }
     });
