@@ -153,41 +153,45 @@ class App {
     inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
   }
 
+  _areInputsValidated(...inputs) {
+    const validInputs = inputs.every(ip => Number.isFinite(ip) && ip > 0);
+
+    // const allPositive = inputs.every(ip => ip > 0);
+    // console.log(allPositive, 'allpositive');
+    console.log(validInputs, 'validinputs');
+
+    return validInputs;
+  }
+
   _newWorkout(e) {
     e.preventDefault();
     console.log('from newWorkout method');
 
-    const validInputs = (...inputs) => inputs.every(ip => Number.isFinite(ip));
+    // const validInputs = (...inputs) => inputs.every(ip => Number.isFinite(ip));
 
-    const allPositive = (...inputs) => inputs.every(ip => ip >= 0);
+    // const allPositive = (...inputs) => inputs.every(ip => ip > 0);
 
     //Get data from form
     const type = inputType.value;
     const distance = +inputDistance.value;
     const duration = +inputDuration.value;
-
     //Check if data is valid
 
     //If activity running, create running object
     if (type == 'running') {
       console.log('running');
       const cadence = +inputCadence.value;
-      if (
-        !validInputs(distance, duration, cadence) ||
-        !allPositive(distance, duration, cadence)
-      )
+      if (!this._areInputsValidated(distance, duration, cadence))
         return alert('Inputs has to be number');
 
+      console.log(duration, cadence, distance, 'checking');
       workout = new Running(this.#mapEvent.latlng, distance, duration, cadence);
     }
     //If activity cycling, create cycling object
     if (type == 'cycling') {
       console.log('cycling');
       const elevation = +inputElevation.value;
-      if (
-        !validInputs(distance, duration, elevation) ||
-        !allPositive(distance, duration)
-      )
+      if (!this._areInputsValidated(distance, duration, elevation))
         return alert('Inputs has to be number');
       // prettier-ignore
       workout = new Cycling(this.#mapEvent.latlng, distance, duration, elevation);
@@ -286,27 +290,61 @@ class App {
     // console.log(workout.type);
     editIcon = document.querySelectorAll('.edit-icon');
     // console.log('from render workout method');
-    editIcon.forEach(icon => {
-      icon.removeEventListener('click', this._editWorkout.bind(this));
-      icon.addEventListener('click', this._editWorkout.bind(this));
-    });
+    // editIcon.forEach(icon => {
+    //   icon.removeEventListener('click', this._editWorkout.bind(this));
+    //   icon.addEventListener('click', this._editWorkout.bind(this));
+    // });
   }
 
   _moveToPopup(e) {
-    const ele = e.target.closest('.workout');
-    // console.log(this);
-    const workoutId = ele?.dataset.id;
-    const clickedWorkout = this.#workouts.find(
-      workout => workout.id === workoutId
-    );
-    // console.log(clickedWorkout);
-    if (!clickedWorkout) return;
-    this.#map.setView(clickedWorkout.coords, 13, {
-      animate: true,
-      pan: {
-        duration: 1,
-      },
-    });
+    // const ele = e.target.closest('.workout');
+    // // console.log(this);
+    // const workoutId = ele?.dataset.id;
+    // const clickedWorkout = this.#workouts.find(
+    //   workout => workout.id === workoutId
+    // );
+    // // console.log(clickedWorkout);
+    // if (!clickedWorkout) return;
+    // this.#map.setView(clickedWorkout.coords, 13, {
+    //   animate: true,
+    //   pan: {
+    //     duration: 1,
+    //   },
+    // });
+
+    const ele = e.target;
+    if (ele.classList.contains('edit-icon')) {
+      const editMethod = this._editWorkout.bind(this);
+      editMethod(e);
+      console.log('from button ');
+    }
+
+    if (ele.closest('.workout')) {
+      const ele = e.target.closest('.workout');
+      console.log('closest is workout');
+      const workoutId = ele?.dataset.id;
+      const clickedWorkout = this.#workouts.find(
+        workout => workout.id === workoutId
+      );
+      if (!clickedWorkout) return;
+      this.#map.setView(clickedWorkout.coords, 13, {
+        animate: true,
+        pan: {
+          duration: 1,
+        },
+      });
+    }
+    if (ele.closest('.cancel')) {
+      console.log('clicked on cancel');
+      const cancelMethod = this._cancelEdit.bind(this);
+      cancelMethod(e);
+    }
+
+    if (ele.closest('.save')) {
+      console.log('clicked on save');
+      const saveMethod = this._saveEditedWorkout.bind(this);
+      saveMethod(e);
+    }
   }
 
   _setLocalStorage() {
@@ -360,15 +398,15 @@ class App {
 
     //creating new workout is not working if below line uncommented
 
-    cancel.addEventListener('click', this._cancelEdit.bind(this));
-    saveBtn.addEventListener('click', this._saveEditedWorkout.bind(this));
+    // cancel.addEventListener('click', this._cancelEdit.bind(this));
+    // saveBtn.removeEventListener('click', this._saveEditedWorkout.bind(this));
+    // saveBtn.addEventListener('click', this._saveEditedWorkout.bind(this));
   }
   _setFormFieldValues(workout) {
     inputType.value = workout.type;
     inputDistance.value = workout.distance;
     inputDuration.value = workout.duration;
     if (workout.type === 'running') {
-      console.log('from running loop');
       inputElevation.closest('.form__row').classList.add('form__row--hidden');
       inputCadence.closest('.form__row').classList.remove('form__row--hidden');
       inputCadence.value = workout.cadence;
@@ -401,16 +439,21 @@ class App {
   _saveEditedWorkout(e) {
     e.preventDefault();
     const type = inputType.value;
-    const distance = inputDistance.value;
-    const duration = inputDuration.value;
+    const distance = +inputDistance.value;
+    const duration = +inputDuration.value;
     let cadence, elevation;
     if (type === 'running') {
-      cadence = inputCadence.value;
+      cadence = +inputCadence.value;
+      console.log('inside running condi', type, distance, duration, cadence);
+      if (!this._areInputsValidated(distance, duration, cadence))
+        return alert('Inputs should not be empty or non numerical');
     }
     if (type === 'cycling') {
-      elevation = inputElevation.value;
+      console.log('inside cycling condi', type, distance, duration, elevation);
+      elevation = +inputElevation.value;
+      if (!this._areInputsValidated(distance, duration, elevation))
+        return alert('Inputs should not be empty or non numerical');
     }
-    console.log(type, distance, duration, cadence, elevation);
     const workoutId = form.dataset.editId;
     console.log(workoutId);
     ///editing workout using for each
