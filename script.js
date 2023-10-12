@@ -484,6 +484,13 @@ class App {
     this._getLocalStorage();
     this._clearFormFields();
     this._hideForm();
+    let workoutElement;
+    document.querySelectorAll('.workout').forEach(workout => {
+      if (workout.dataset.id == workoutId) {
+        workoutElement = workout;
+      }
+    });
+    workoutElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
 
