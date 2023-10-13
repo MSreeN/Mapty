@@ -495,6 +495,10 @@ class App {
 
   _scrollAndGlow(workoutElement) {
     workoutElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    workoutElement.classList.add('glow-up');
+    setTimeout(() => {
+      workoutElement.classList.remove('glow-up');
+    }, 1500);
   }
 }
 
