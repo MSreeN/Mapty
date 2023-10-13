@@ -134,7 +134,7 @@ class App {
   _showForm(mapE) {
     cancel.classList.add('cancel_hidden');
     saveBtn.classList.add('cancel_hidden');
-    submitBtn.classList.remove('.cancel_hidden');
+    submitBtn.classList.remove('cancel_hidden');
     this._clearFormFields();
     this.#mapEvent = mapE;
     form.classList.remove('hidden');
