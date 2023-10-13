@@ -490,6 +490,10 @@ class App {
         workoutElement = workout;
       }
     });
+    this._scrollAndGlow(workoutElement);
+  }
+
+  _scrollAndGlow(workoutElement) {
     workoutElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
