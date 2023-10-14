@@ -320,6 +320,10 @@ class App {
       console.log('from button ');
     }
 
+    if (ele.classList.contains('delete-icon')) {
+      console.log('clicked on delete icon');
+    }
+
     if (ele.closest('.workout')) {
       const ele = e.target.closest('.workout');
       console.log('closest is workout');
