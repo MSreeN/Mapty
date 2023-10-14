@@ -243,6 +243,7 @@ class App {
       workout.id
     }">
     <ion-icon class="edit-icon" name="create-outline"></ion-icon>
+    <ion-icon class="delete-icon" name="trash-outline"></ion-icon>
        <h2 class="workout__title"$>${workout.description}</h2>
        <div class="workout__details">
          <span class="workout__icon">${

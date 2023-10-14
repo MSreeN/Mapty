@@ -262,6 +262,16 @@ a:visited {
   width: 1.8rem;
 
   position: absolute;
+  right: 4.8rem;
+  top: 0.4rem;
+}
+
+.delete-icon {
+  stroke: white;
+  height: 1.8rem;
+  width: 1.8rem;
+
+  position: absolute;
   right: 0.8rem;
   top: 0.4rem;
 }
