@@ -323,7 +323,13 @@ class App {
     if (ele.classList.contains('delete-icon')) {
       const workoutEle = ele.closest('.workout');
       const workoutId = workoutEle.dataset.id;
-      console.log(workoutId);
+      const workoutIndex = this.#workouts.findIndex(
+        workout => workout.id === workoutId
+      );
+      console.log(workoutIndex);
+      this.#workouts.splice(workoutIndex, 1);
+      this._setLocalStorage();
+      this._getLocalStorage();
     }
 
     if (ele.closest('.workout')) {
