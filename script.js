@@ -321,7 +321,9 @@ class App {
     }
 
     if (ele.classList.contains('delete-icon')) {
-      console.log('clicked on delete icon');
+      const workoutEle = ele.closest('.workout');
+      const workoutId = workoutEle.dataset.id;
+      console.log(workoutId);
     }
 
     if (ele.closest('.workout')) {
