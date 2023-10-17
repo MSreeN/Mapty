@@ -321,7 +321,7 @@ class App {
     }
 
     if (ele.classList.contains('delete-icon')) {
-      console.log(ele);
+      console.log('delete method');
       const workoutEle = ele.closest('.workout');
       const workoutId = workoutEle.dataset.id;
       const workoutIndex = this.#workouts.findIndex(
@@ -330,8 +330,8 @@ class App {
       console.log(workoutIndex);
       this.#workouts.splice(workoutIndex, 1);
       this._setLocalStorage();
-      const allWorkouts = document.querySelectorAll('.workout');
-      allWorkouts.forEach(workout => workout.remove());
+      // const allWorkouts = document.querySelectorAll('.workout');
+      // allWorkouts.forEach(workout => workout.remove());
       this._getLocalStorage();
     }
 
