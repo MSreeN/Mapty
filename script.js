@@ -388,6 +388,8 @@ class App {
     // });
     console.log('after workout');
     // console.log(this.#workouts);
+    const allWorkouts = document.querySelectorAll('.workout');
+    allWorkouts.forEach(workout => workout.remove());
     this.#workouts.forEach(workout => this._renderWorkout(workout));
 
     // console.log(editIcon);
