@@ -299,27 +299,40 @@ a:visited {
 
 .modal {
   position: absolute;
-  width: 40%;
+  width: 30%;
+  height: 25%;
   top: 30%;
   left: 50%;
   background-color: white;
-  /* transform: translate(-50%, -50%); */
+  transform: translate(-50%, -20%);
   color: #333;
   text-align: center;
-  padding: 2rem;
+  padding: 4rem 3rem 2rem 3rem;
   border-radius: 1rem;
   letter-spacing: 0.1rem;
   word-spacing: 0.3rem;
+  box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+}
+
+.modal h1 {
+  padding-bottom: 2.5rem;
 }
 
 .modal-button {
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 1.8rem;
   border: none;
   color: #333;
+  font-size: 1.8rem;
+  border-radius: 0.4rem;
+}
+
+.modal-button:hover {
+  cursor: pointer;
 }
 
 .delete-button {
   background: rgb(235, 105, 105);
+  margin-right: 2rem;
 }
 
 .cancel-button {
