@@ -494,8 +494,6 @@ class App {
     const workout = this.#workouts.filter(workout => workout.id === workoutId);
     console.log(workout);
     this._setLocalStorage();
-    const allWorkouts = document.querySelectorAll('.workout');
-    allWorkouts.forEach(workout => workout.remove());
     submitBtn.classList.remove('cancel_hidden');
     cancel.classList.add('cancel_hidden');
     saveBtn.classList.add('cancel_hidden');
