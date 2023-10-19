@@ -386,8 +386,17 @@ class App {
     this._getLocalStorage();
   }
 
-  _modalHandler(e, workoutId) {
-    console.log(e);
+  _modalHandler(workoutId, e) {
+    if (e.target.closest('.delete-button')) {
+      console.log('delete button');
+    }
+    if (e.target.closest('.cancel-button')) {
+      console.log('cancel button');
+      modal.removeEventListener(
+        'click',
+        this._modalHandler.bind(this, workoutId)
+      );
+    }
   }
 
   _setLocalStorage() {
