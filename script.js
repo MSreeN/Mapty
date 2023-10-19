@@ -92,6 +92,7 @@ class App {
     //attaching event handlers
     // form.addEventListener('submit', this._newWorkout.bind(this));
     submitBtn.addEventListener('click', this._newWorkout.bind(this));
+    // modal.addEventListener('click', this._modalHandler.bind(this));
 
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
@@ -129,7 +130,6 @@ class App {
 
     //adding click event on map
     this.#map.on('click', this._showForm.bind(this));
-
     this.#workouts.forEach(workout => this._renderWorkoutMarker(workout));
   }
 
@@ -330,9 +330,9 @@ class App {
       setTimeout(() => {
         overlay.classList.add('cancel_hidden');
         modal.classList.add('cancel_hidden');
-      }, 2000);
-      // const workoutEle = ele.closest('.workout');
-      // const workoutId = workoutEle.dataset.id;
+      }, 10000);
+      const workoutEle = ele.closest('.workout');
+      const workoutId = workoutEle.dataset.id;
       // const workoutIndex = this.#workouts.findIndex(
       //   workout => workout.id === workoutId
       // );
@@ -342,6 +342,8 @@ class App {
       // // const allWorkouts = document.querySelectorAll('.workout');
       // // allWorkouts.forEach(workout => workout.remove());
       // this._getLocalStorage();
+      // this._deleteWorkout(workoutId);
+      modal.addEventListener('click', this._modalHandler.bind(this, workoutId));
     }
 
     if (ele.closest('.workout')) {
@@ -370,6 +372,22 @@ class App {
       const saveMethod = this._saveEditedWorkout.bind(this);
       saveMethod(e);
     }
+  }
+
+  _deleteWorkout(workoutId) {
+    const workoutIndex = this.#workouts.findIndex(
+      workout => workout.id === workoutId
+    );
+    console.log(workoutIndex);
+    this.#workouts.splice(workoutIndex, 1);
+    this._setLocalStorage();
+    // const allWorkouts = document.querySelectorAll('.workout');
+    // allWorkouts.forEach(workout => workout.remove());
+    this._getLocalStorage();
+  }
+
+  _modalHandler(e, workoutId) {
+    console.log(e);
   }
 
   _setLocalStorage() {
