@@ -16,6 +16,8 @@ const cancel = document.querySelector('.cancel');
 const saveBtn = document.querySelector('.save');
 const optionsBtn = document.querySelector('.option_buttons');
 const submitBtn = document.querySelector('.submit_btn');
+const modal = document.querySelector('.modal');
+const overlay = document.querySelector('.overlay');
 let editIcon;
 
 let workout;
@@ -322,17 +324,24 @@ class App {
 
     if (ele.classList.contains('delete-icon')) {
       console.log('delete method');
-      const workoutEle = ele.closest('.workout');
-      const workoutId = workoutEle.dataset.id;
-      const workoutIndex = this.#workouts.findIndex(
-        workout => workout.id === workoutId
-      );
-      console.log(workoutIndex);
-      this.#workouts.splice(workoutIndex, 1);
-      this._setLocalStorage();
-      // const allWorkouts = document.querySelectorAll('.workout');
-      // allWorkouts.forEach(workout => workout.remove());
-      this._getLocalStorage();
+      overlay.classList.remove('cancel_hidden');
+      modal.classList.remove('cancel_hidden');
+      console.log(overlay, modal);
+      setTimeout(() => {
+        overlay.classList.add('cancel_hidden');
+        modal.classList.add('cancel_hidden');
+      }, 2000);
+      // const workoutEle = ele.closest('.workout');
+      // const workoutId = workoutEle.dataset.id;
+      // const workoutIndex = this.#workouts.findIndex(
+      //   workout => workout.id === workoutId
+      // );
+      // console.log(workoutIndex);
+      // this.#workouts.splice(workoutIndex, 1);
+      // this._setLocalStorage();
+      // // const allWorkouts = document.querySelectorAll('.workout');
+      // // allWorkouts.forEach(workout => workout.remove());
+      // this._getLocalStorage();
     }
 
     if (ele.closest('.workout')) {
