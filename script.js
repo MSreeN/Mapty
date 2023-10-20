@@ -386,13 +386,13 @@ class App {
       this._getLocalStorage();
       modal.removeEventListener('click', this.deleteHandler);
       modal.classList.add('cancel_hidden');
-      overlay.classList.add('cancel-hidden');
+      overlay.classList.add('cancel_hidden');
     }
     if (e.target.closest('.cancel-button')) {
       console.log('cancel button');
       modal.removeEventListener('click', this.deleteHandler);
       modal.classList.add('cancel_hidden');
-      overlay.classList.add('cancel-hidden');
+      overlay.classList.add('cancel_hidden');
     }
   }
 
