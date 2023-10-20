@@ -343,10 +343,8 @@ class App {
       // // allWorkouts.forEach(workout => workout.remove());
       // this._getLocalStorage();
       // this._deleteWorkout(workoutId);
-      modal.addEventListener(
-        'click',
-        this._modalHandler(workoutId, this.#workouts)
-      );
+      this.deleteHandler = this._modalHandler.bind(this, workoutId);
+      modal.addEventListener('click', this.deleteHandler);
     }
 
     if (ele.closest('.workout')) {
@@ -389,22 +387,14 @@ class App {
     this._getLocalStorage();
   }
 
-  _modalHandler(workoutId, workouts, e) {
-    // if (e.target.closest('.delete-button')) {
-    //   console.log('delete button');
-    //   modal.removeEventListener(
-    //     'click',
-    //     this._modalHandler.bind(this, workoutId)
-    //   );
-    // }
-    // if (e.target.closest('.cancel-button')) {
-    //   console.log('cancel button');
-    //   modal.removeEventListener(
-    //     'click',
-    //     this._modalHandler.bind(this, workoutId)
-    //   );
-    // }
-    console.log(workoutId, workouts, e);
+  _modalHandler(workoutId, e) {
+    if (e.target.closest('.delete-button')) {
+      console.log('delete button');
+    }
+    if (e.target.closest('.cancel-button')) {
+      console.log('cancel button');
+      modal.removeEventListener('click', this.deleteHandler);
+    }
   }
 
   _setLocalStorage() {
