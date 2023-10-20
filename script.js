@@ -326,23 +326,8 @@ class App {
       console.log('delete method');
       overlay.classList.remove('cancel_hidden');
       modal.classList.remove('cancel_hidden');
-      console.log(overlay, modal);
-      setTimeout(() => {
-        overlay.classList.add('cancel_hidden');
-        modal.classList.add('cancel_hidden');
-      }, 10000);
       const workoutEle = ele.closest('.workout');
       const workoutId = workoutEle.dataset.id;
-      // const workoutIndex = this.#workouts.findIndex(
-      //   workout => workout.id === workoutId
-      // );
-      // console.log(workoutIndex);
-      // this.#workouts.splice(workoutIndex, 1);
-      // this._setLocalStorage();
-      // // const allWorkouts = document.querySelectorAll('.workout');
-      // // allWorkouts.forEach(workout => workout.remove());
-      // this._getLocalStorage();
-      // this._deleteWorkout(workoutId);
       this.deleteHandler = this._modalHandler.bind(this, workoutId);
       modal.addEventListener('click', this.deleteHandler);
     }
@@ -390,10 +375,24 @@ class App {
   _modalHandler(workoutId, e) {
     if (e.target.closest('.delete-button')) {
       console.log('delete button');
+      const workoutIndex = this.#workouts.findIndex(
+        workout => workout.id === workoutId
+      );
+      console.log(workoutIndex);
+      this.#workouts.splice(workoutIndex, 1);
+      this._setLocalStorage();
+      const allWorkouts = document.querySelectorAll('.workout');
+      allWorkouts.forEach(workout => workout.remove());
+      this._getLocalStorage();
+      modal.removeEventListener('click', this.deleteHandler);
+      modal.classList.add('cancel_hidden');
+      overlay.classList.add('cancel-hidden');
     }
     if (e.target.closest('.cancel-button')) {
       console.log('cancel button');
       modal.removeEventListener('click', this.deleteHandler);
+      modal.classList.add('cancel_hidden');
+      overlay.classList.add('cancel-hidden');
     }
   }
 
