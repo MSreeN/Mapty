@@ -360,18 +360,6 @@ class App {
     }
   }
 
-  _deleteWorkout(workoutId) {
-    const workoutIndex = this.#workouts.findIndex(
-      workout => workout.id === workoutId
-    );
-    console.log(workoutIndex);
-    this.#workouts.splice(workoutIndex, 1);
-    this._setLocalStorage();
-    // const allWorkouts = document.querySelectorAll('.workout');
-    // allWorkouts.forEach(workout => workout.remove());
-    this._getLocalStorage();
-  }
-
   _modalHandler(workoutId, e) {
     if (e.target.closest('.delete-button')) {
       console.log('delete button');
@@ -380,10 +368,11 @@ class App {
       );
       console.log(workoutIndex);
       this.#workouts.splice(workoutIndex, 1);
-      this._setLocalStorage();
-      const allWorkouts = document.querySelectorAll('.workout');
-      allWorkouts.forEach(workout => workout.remove());
-      this._getLocalStorage();
+      // this._setLocalStorage();
+      // const allWorkouts = document.querySelectorAll('.workout');
+      // allWorkouts.forEach(workout => workout.remove());
+      // this._getLocalStorage();
+      this._refreshWorkouts();
       modal.removeEventListener('click', this.deleteHandler);
       modal.classList.add('cancel_hidden');
       overlay.classList.add('cancel_hidden');
@@ -394,6 +383,13 @@ class App {
       modal.classList.add('cancel_hidden');
       overlay.classList.add('cancel_hidden');
     }
+  }
+
+  _refreshWorkouts() {
+    this._setLocalStorage();
+    const allWorkouts = document.querySelectorAll('.workout');
+    allWorkouts.forEach(workout => workout.remove());
+    this._getLocalStorage();
   }
 
   _setLocalStorage() {
@@ -526,11 +522,12 @@ class App {
 
     const workout = this.#workouts.filter(workout => workout.id === workoutId);
     console.log(workout);
-    this._setLocalStorage();
-    submitBtn.classList.remove('cancel_hidden');
-    cancel.classList.add('cancel_hidden');
-    saveBtn.classList.add('cancel_hidden');
-    this._getLocalStorage();
+    // this._setLocalStorage();
+    // submitBtn.classList.remove('cancel_hidden');
+    // cancel.classList.add('cancel_hidden');
+    // saveBtn.classList.add('cancel_hidden');
+    // this._getLocalStorage();
+    this._refreshWorkouts();
     this._clearFormFields();
     this._hideForm();
     let workoutElement;
