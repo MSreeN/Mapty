@@ -524,8 +524,8 @@ class App {
     console.log(workout);
     // this._setLocalStorage();
     // submitBtn.classList.remove('cancel_hidden');
-    // cancel.classList.add('cancel_hidden');
-    // saveBtn.classList.add('cancel_hidden');
+    cancel.classList.add('cancel_hidden');
+    saveBtn.classList.add('cancel_hidden');
     // this._getLocalStorage();
     this._refreshWorkouts();
     this._clearFormFields();
