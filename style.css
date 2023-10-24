@@ -356,12 +356,18 @@ a:visited {
 .clear_all {
   margin: 1.2rem;
 
-  display: flex;
-  justify-content: flex-end;
+  /* position: relative; */
+  /* display: flex; */
+  text-align: right;
 }
 
 .clear_button {
   width: auto;
+
+  /* position: absolute; */
+  /* right: 0;
+  top: -50px; */
+  display: inline-block;
 }
 
 .clear_button:hover {

@@ -231,6 +231,7 @@ class App {
 
     //set local storage storage to all workouts
     this._setLocalStorage();
+    clearDiv.classList.remove('cancel_hidden');
     console.log(workout);
   }
   _clearFormFields() {
@@ -416,8 +417,10 @@ class App {
     if (!localStorage.getItem('workouts')) {
       this.#workouts = [];
       allWorkouts.forEach(workout => workout.remove());
+      clearDiv.classList.add('cancel_hidden');
       return;
     }
+    clearDiv.classList.remove('cancel_hidden');
     this.#workouts = JSON.parse(localStorage.getItem('workouts'));
     console.log('from getStorage method', this.#workouts);
     console.log(typeof this.#workouts);
