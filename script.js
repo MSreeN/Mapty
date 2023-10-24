@@ -18,6 +18,7 @@ const optionsBtn = document.querySelector('.option_buttons');
 const submitBtn = document.querySelector('.submit_btn');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
+const clearDiv = document.querySelector('.clear_all');
 let editIcon;
 
 let workout;
@@ -92,6 +93,7 @@ class App {
     //attaching event handlers
     // form.addEventListener('submit', this._newWorkout.bind(this));
     submitBtn.addEventListener('click', this._newWorkout.bind(this));
+    clearDiv.addEventListener('click', this._clearContainerHandler.bind(this));
     // modal.addEventListener('click', this._modalHandler.bind(this));
 
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
@@ -163,6 +165,19 @@ class App {
     console.log(validInputs, 'validinputs');
 
     return validInputs;
+  }
+
+  _clearContainerHandler(e) {
+    const targetEle = e.target;
+    if (targetEle.classList.contains('clear_button')) {
+      if (this.#workouts.length < 1) {
+        alert('No workouts to delete');
+        return;
+      }
+      localStorage.clear();
+      this._getLocalStorage();
+      console.log(this.#workouts);
+    }
   }
 
   _newWorkout(e) {
@@ -288,7 +303,7 @@ class App {
   </div>
   </li>`;
 
-    optionsBtn.insertAdjacentHTML('afterend', html);
+    clearDiv.insertAdjacentHTML('afterend', html);
     // console.log(workout);
     // console.log(workout.type);
     editIcon = document.querySelectorAll('.edit-icon');
@@ -397,8 +412,14 @@ class App {
   }
 
   _getLocalStorage() {
-    if (!localStorage.getItem('workouts')) return;
+    const allWorkouts = document.querySelectorAll('.workout');
+    if (!localStorage.getItem('workouts')) {
+      this.#workouts = [];
+      allWorkouts.forEach(workout => workout.remove());
+      return;
+    }
     this.#workouts = JSON.parse(localStorage.getItem('workouts'));
+    console.log('from getStorage method', this.#workouts);
     console.log(typeof this.#workouts);
 
     console.log('before prototype', this.#workouts);
@@ -417,7 +438,6 @@ class App {
     // });
     console.log('after workout');
     // console.log(this.#workouts);
-    const allWorkouts = document.querySelectorAll('.workout');
     allWorkouts.forEach(workout => workout.remove());
     this.#workouts.forEach(workout => this._renderWorkout(workout));
 
