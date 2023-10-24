@@ -352,3 +352,20 @@ a:visited {
   z-index: 999;
   backdrop-filter: blur(3px);
 }
+
+.clear_all {
+  margin: 1.2rem;
+
+  display: flex;
+  justify-content: flex-end;
+}
+
+.clear_button {
+  width: auto;
+}
+
+.clear_button:hover {
+  cursor: pointer;
+  background-color: #42484d;
+  color: white;
+}
