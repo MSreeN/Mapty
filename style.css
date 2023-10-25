@@ -375,3 +375,31 @@ a:visited {
   background-color: #42484d;
   color: white;
 }
+
+.filter-container {
+  display: inline-block;
+  /* background-color: var(--color-light--3); */
+  background-color: transparent;
+  border-radius: 3px;
+
+  padding-right: 1.8rem;
+}
+
+.filter-icon {
+  stroke: white;
+  height: 2rem;
+  width: 2rem;
+}
+
+.filter-select {
+  font-size: 1.6rem;
+  border: none;
+  color: white;
+  padding: 0.3rem;
+  background-color: transparent;
+}
+
+.filter-select option {
+  background-color: var(--color-light--3);
+  color: black;
+}
