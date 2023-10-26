@@ -188,13 +188,18 @@ class App {
 
   _selectEventHandler(e) {
     const sortOption = e.target.value;
-    let sortedWorkout;
+    let sortedWorkouts = [...this.#workouts];
     console.log(sortOption);
     if (sortOption == 'distance') {
-      sortedWorkout = this.#workouts.sort((a, b) => a.distance - b.distance);
-      console.log(sortedWorkout);
+      sortedWorkouts.sort((a, b) => a.distance - b.distance);
+      console.log(sortedWorkouts);
     }
-    this._tempRefreshWorkouts(sortedWorkout);
+    if (sortOption == 'new') {
+      sortedWorkouts = [...this.#workouts];
+    }
+    console.log('workouts', this.#workouts);
+    console.log(sortedWorkouts);
+    this._tempRefreshWorkouts(sortedWorkouts);
   }
 
   _tempRefreshWorkouts(workouts) {
