@@ -187,9 +187,21 @@ class App {
   }
 
   _selectEventHandler(e) {
-    console.log(select.value);
+    const sortOption = e.target.value;
+    let sortedWorkout;
+    console.log(sortOption);
+    if (sortOption == 'distance') {
+      sortedWorkout = this.#workouts.sort((a, b) => a.distance - b.distance);
+      console.log(sortedWorkout);
+    }
+    this._tempRefreshWorkouts(sortedWorkout);
   }
 
+  _tempRefreshWorkouts(workouts) {
+    const allWorkouts = document.querySelectorAll('.workout');
+    allWorkouts.forEach(workout => workout.remove());
+    workouts.forEach(workout => this._renderWorkout(workout));
+  }
   _newWorkout(e) {
     e.preventDefault();
     console.log('from newWorkout method');
