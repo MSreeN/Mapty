@@ -19,6 +19,7 @@ const submitBtn = document.querySelector('.submit_btn');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const clearDiv = document.querySelector('.clear_all');
+const select = document.querySelector('.filter-select');
 let editIcon;
 
 let workout;
@@ -94,6 +95,7 @@ class App {
     // form.addEventListener('submit', this._newWorkout.bind(this));
     submitBtn.addEventListener('click', this._newWorkout.bind(this));
     clearDiv.addEventListener('click', this._clearContainerHandler.bind(this));
+    select.addEventListener('change', this._selectEventHandler.bind(this));
     // modal.addEventListener('click', this._modalHandler.bind(this));
 
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
@@ -178,6 +180,14 @@ class App {
       this._getLocalStorage();
       console.log(this.#workouts);
     }
+
+    // if (targetEle.classList.contains('filter-select')) {
+    //   console.log(select.value);
+    // }
+  }
+
+  _selectEventHandler(e) {
+    console.log(select.value);
   }
 
   _newWorkout(e) {
