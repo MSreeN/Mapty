@@ -451,7 +451,7 @@ class App {
     // });
     console.log('after workout');
     // console.log(this.#workouts);
-    allWorkouts.forEach(workout => workout.remove());
+    // allWorkouts.forEach(workout => workout.remove());
     this.#workouts.forEach(workout => this._renderWorkout(workout));
 
     // console.log(editIcon);
