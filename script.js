@@ -197,9 +197,14 @@ class App {
     if (sortOption == 'new') {
       sortedWorkouts = [...this.#workouts];
     }
-    console.log('workouts', this.#workouts);
-    console.log(sortedWorkouts);
-    this._tempRefreshWorkouts(sortedWorkouts);
+
+    if (sortOption == 'date') {
+      // console.log(+new Date(sortedWorkouts[0].date));
+      sortedWorkouts.sort((a, b) => {
+        return +new Date(a.date) - +new Date(b.date);
+      });
+    }
+    this._tempRefreshWorkouts(sortedWorkouts.reverse());
   }
 
   _tempRefreshWorkouts(workouts) {
