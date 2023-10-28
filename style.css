@@ -381,6 +381,7 @@ a:visited {
   /* background-color: var(--color-light--3); */
   background-color: transparent;
   border-radius: 3px;
+  position: relative;
 
   padding-right: 1.8rem;
 }
@@ -402,4 +403,9 @@ a:visited {
 .filter-select option {
   background-color: var(--color-light--3);
   color: black;
+}
+
+.filter-icon {
+  position: absolute;
+  inset: 2px auto auto -18px;
 }
