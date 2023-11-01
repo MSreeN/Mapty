@@ -274,6 +274,9 @@ class App {
   }
 
   _renderWorkoutMarker(workout) {
+    this._getUserLocationDetails(workout.coords.lat, workout.coords.lng).then(
+      res => console.log(res)
+    );
     L.marker(workout.coords)
       .addTo(this.#map)
       .bindPopup(
@@ -287,10 +290,6 @@ class App {
         `${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`
       )
       .openPopup();
-    console.log(
-      'user data',
-      this._getUserLocationDetails(workout.latitude, workout.longitude)
-    );
   }
 
   async _getUserLocationDetails(latitude, longitude) {
@@ -298,7 +297,6 @@ class App {
       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
     );
     const response = await data.json();
-    console.log(response);
     return response;
   }
   _renderWorkout(workout) {
