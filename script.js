@@ -287,6 +287,19 @@ class App {
         `${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`
       )
       .openPopup();
+    console.log(
+      'user data',
+      this._getUserLocationDetails(workout.latitude, workout.longitude)
+    );
+  }
+
+  async _getUserLocationDetails(latitude, longitude) {
+    const data = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+    );
+    const response = await data.json();
+    console.log(response);
+    return response;
   }
   _renderWorkout(workout) {
     let html = `<li class="workout workout--${workout.type}" data-id="${
