@@ -274,22 +274,28 @@ class App {
   }
 
   _renderWorkoutMarker(workout) {
+    this.userLocationCity;
     this._getUserLocationDetails(workout.coords.lat, workout.coords.lng).then(
-      res => console.log(res)
+      res => {
+        this.userLocationCity = res.city;
+
+        L.marker(workout.coords)
+          .addTo(this.#map)
+          .bindPopup(
+            L.popup({
+              autoClose: false,
+              closeOnClick: false,
+              className: `${workout.type}-popup`,
+            })
+          )
+          .setPopupContent(
+            `${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${
+              workout.description
+            } at ${this.userLocationCity}`
+          )
+          .openPopup();
+      }
     );
-    L.marker(workout.coords)
-      .addTo(this.#map)
-      .bindPopup(
-        L.popup({
-          autoClose: false,
-          closeOnClick: false,
-          className: `${workout.type}-popup`,
-        })
-      )
-      .setPopupContent(
-        `${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`
-      )
-      .openPopup();
   }
 
   async _getUserLocationDetails(latitude, longitude) {
