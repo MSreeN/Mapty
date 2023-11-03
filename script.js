@@ -275,7 +275,8 @@ class App {
 
   _renderWorkoutMarker(workout) {
     this.userLocationCity;
-    this._getUserLocationDetails(workout.coords.lat, workout.coords.lng).then(
+    const {lat, lng} = workout.coords
+    this._getUserLocationDetails(lat,lng).then(
       res => {
         this.userLocationCity = res.city;
 
@@ -296,6 +297,7 @@ class App {
           .openPopup();
       }
     );
+    this._getUserLocationWeather(lat, lng)
   }
 
   async _getUserLocationDetails(latitude, longitude) {
@@ -304,6 +306,12 @@ class App {
     );
     const response = await data.json();
     return response;
+  }
+
+  async _getUserLocationWeather(lat, lng){
+    const response = await fetch(`http://www.7timer.info/bin/api.pl?lon=${lng}&lat=${lat}&product=astro&output=json`)
+    const data = await response.json();
+    console.log("weather data", data);
   }
   _renderWorkout(workout) {
     let html = `<li class="workout workout--${workout.type}" data-id="${
