@@ -297,7 +297,7 @@ class App {
           .openPopup();
       }
     );
-    this._getUserLocationWeather(lat, lng)
+    this._getUserLocationWeather(lat, lng, new Date(workout.date))
   }
 
   async _getUserLocationDetails(latitude, longitude) {
@@ -308,10 +308,13 @@ class App {
     return response;
   }
 
-  async _getUserLocationWeather(lat, lng){
-    const response = await fetch(`http://www.7timer.info/bin/api.pl?lon=${lng}&lat=${lat}&product=astro&output=json`)
+  async _getUserLocationWeather(lat, lng, date){
+    // const response = await fetch(`http://www.7timer.info/bin/api.pl?lon=${lng}&lat=${lat}&product=astro&output=json`)
+    // const locationKeyResponse = await fetch(`https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=${lat}&lon=${lng}&dt=${date.getTime()}&appid=e4544005ca18fdaf690258389edeb521`);
+    // const locationKeyData = locationKeyResponse.json()
     const data = await response.json();
-    console.log("weather data", data);
+    console.log("weather data", locationKeyData);
+
   }
   _renderWorkout(workout) {
     let html = `<li class="workout workout--${workout.type}" data-id="${
