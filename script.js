@@ -295,9 +295,13 @@ class App {
             } at ${this.userLocationCity}`
           )
           .openPopup();
+          return this.userLocationCity;
       }
-    );
-    this._getUserLocationWeather(lat, lng, new Date(workout.date))
+    ).then(city =>{
+      console.log("city from then method", city);
+      this._getUserLocationWeather(city)
+    })
+
   }
 
   async _getUserLocationDetails(latitude, longitude) {
@@ -305,16 +309,23 @@ class App {
       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
     );
     const response = await data.json();
+    console.log("location data", response);
     return response;
   }
 
-  async _getUserLocationWeather(lat, lng, date){
+  async _getUserLocationWeather(city){
     // const response = await fetch(`http://www.7timer.info/bin/api.pl?lon=${lng}&lat=${lat}&product=astro&output=json`)
     // const locationKeyResponse = await fetch(`https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=${lat}&lon=${lng}&dt=${date.getTime()}&appid=e4544005ca18fdaf690258389edeb521`);
     // const locationKeyData = locationKeyResponse.json()
-    const data = await response.json();
-    console.log("weather data", locationKeyData);
+    // const weatherResponse = await fetch(`https://api.api-ninjas.com/v1/weather?city=${city}`,{
+    //   headers: { 'X-Api-Key':"​U8eRKSv42az8OHSyH50POw==b1EPGuMwdi1UV3YL",
+    //   'Content-Type': 'application/json'
+    //   }
+    // })
 
+    const weatherResponse = await fetch(`https://goweather.herokuapp.com/weather/${city}`);
+    const data = await weatherResponse.json();
+    console.log(city, data);
   }
   _renderWorkout(workout) {
     let html = `<li class="workout workout--${workout.type}" data-id="${
