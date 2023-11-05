@@ -276,7 +276,11 @@ class App {
   _renderWorkoutMarker(workout) {
     this.userLocationCity;
     const {lat, lng} = workout.coords
-    this._getUserLocationDetails(lat,lng).then(
+    this._getUserLocationDetails(lat,lng).then(res =>{
+      console.log("city from then method", res.city);
+      this._getUserLocationWeather(res.city)
+      return res;
+    }).then(
       res => {
         this.userLocationCity = res.city;
 
